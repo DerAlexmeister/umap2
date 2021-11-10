@@ -94,6 +94,8 @@ class USBMassStorageClass(USBClass):
 
 class DiskImage:
     def __init__(self, filename, block_size):
+        if not os.path.isfile(filename):
+            filename = './data/stick.img'
         self.filename = filename
         self.block_size = block_size
 

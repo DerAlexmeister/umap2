@@ -1,5 +1,8 @@
 import logging
 
+from colorama import init as terminit
+from termcolor import colored
+
 stdio_handler = None
 umap2_logger = None
 
@@ -7,6 +10,7 @@ umap2_logger = None
 def prepare_logging():
     global umap2_logger
     global stdio_handler
+    terminit()
     if umap2_logger is None:
         def add_debug_level(num, name):
             def fn(self, message, *args, **kwargs):
@@ -19,7 +23,7 @@ def prepare_logging():
         logging.Logger.verbose = add_debug_level(5, 'VERBOSE')
         logging.Logger.always = add_debug_level(100, 'ALWAYS')
 
-        FORMAT = '[%(levelname)-6s] %(message)s'
+        FORMAT = colored('[%(levelname)-6s]', 'blue') + ' %(message)s'
         stdio_handler = logging.StreamHandler()
         stdio_handler.setLevel(logging.INFO)
         formatter = logging.Formatter(FORMAT)

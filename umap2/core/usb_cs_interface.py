@@ -60,5 +60,8 @@ class USBCSInterface(USBBaseActor):
     def get_descriptor(self, usb_type='fullspeed', valid=False):
         descriptor_type = DescriptorType.cs_interface
         length = len(self.cs_config) + 2
-        response = struct.pack('BB', length & 0xff, descriptor_type) + self.cs_config
+        cs_config = self.cs_config
+        if isinstance(self.cs_config, str):
+            cs_config = bytes(self.cs_config, 'UTF-8')
+        response = struct.pack('BB', length & 0xff, descriptor_type) + cs_config
         return response

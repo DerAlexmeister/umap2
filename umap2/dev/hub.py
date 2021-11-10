@@ -54,8 +54,8 @@ class USBHubClass(USBClass):
         num_bytes = self.num_ports // 7
         if self.num_ports % 7 != 0:
             num_bytes += 1
-        d += '\x00' * num_bytes
-        d += '\xff' * num_bytes
+        d += bytes('\x00' * num_bytes, 'UTF-8')
+        d += bytes('\xff' * num_bytes, 'UTF-8')
         d = struct.pack('B', len(d) + 1) + d
         return d
 

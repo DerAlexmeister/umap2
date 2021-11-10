@@ -22,7 +22,7 @@ class StageLogger(object):
 
     def log_stage(self, stage):
         if self.fd:
-            self.fd.write(stage + '\n')
+            self.fd.write(bytes(stage + '\n', 'UTF-8'))
             self.fd.flush()
 
 
@@ -46,8 +46,8 @@ def mutable(stage, silent=False):
     def wrap_f(func):
         func_self = None
         if inspect.ismethod(func):
-            func_self = func.im_self
-            func = func.im_func
+            func_self = func.__self__
+            func = func.__self__
 
         def wrapper(*args, **kwargs):
             if func_self is None:

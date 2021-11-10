@@ -40,8 +40,8 @@ class USBSmartcardClass(USBClass):
     def handle_get_clock_frequencies(self, req):
         response = ''
         for frequency in self.interface.clock_frequencies:
-            response += struct.pack('<I', frequency)
-        response = struct.pack('<I', len(response)) + response
+            response += struct.pack('<I', str(frequency))
+        response = struct.pack('<I', len(str(response))) + str(response)
         return response
 
     @mutable('get_data_rates_response')
@@ -49,7 +49,7 @@ class USBSmartcardClass(USBClass):
         response = ''
         for data_rate in self.interface.data_rates:
             response += struct.pack('<I', data_rate)
-        response = struct.pack('<I', len(response)) + response
+        response = struct.pack('<I', len(str(response))) + str(response)
         return response
 
 
@@ -312,13 +312,15 @@ class USBSmartcardInterface(USBInterface):
         '''
         .. todo:: should check the data parameter
         '''
-        return R2P_Escape(
+        resp_object = R2P_Escape(
             slot=slot,
             seq=seq,
             status=0x00,
             error=0x80,
             data=b''
         )
+
+        return resp_object
 
     @mutable('smartcard_IccClock_response')
     def handle_PcToRdr_IccClock(self, slot, seq, data):

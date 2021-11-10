@@ -18,14 +18,15 @@
 Legos to generate USB HID reports
 '''
 from umap2.core.usb import DescriptorType
+
 from kitty.model import Template, Container, OneOf, TakeFrom
 from kitty.model import MutableField
 from kitty.model import UInt8, LE16, BitField, Static
 from kitty.model import ENC_INT_LE
 from kitty.core import KittyException
 from random import Random
-from generic import DynamicInt, Descriptor
 
+from .generic import DynamicInt, Descriptor
 
 opcodes = {
     0x04: 'Usage Page',
@@ -124,7 +125,7 @@ def GenerateHidReport(report_str, name=None):
     index = 0
     namer = NameGen()
     while index < len(report_str):
-        opcode = ord(report_str[index])
+        opcode = int(report_str[index], base=16)
         num_args = opcode & 3
         if index + num_args >= len(report_str):
             raise KittyException('Not enough bytes in hid report for last opcode')
@@ -134,7 +135,7 @@ def GenerateHidReport(report_str, name=None):
             fields.append(UInt8(opcode, name=cur_name))
         else:
             args = report_str[index:index + num_args]
-            value = sum(ord(args[i]) << (i * 8) for i in range(len(args)))  # little endian...
+            value = sum(int(args[i], base=16) << (i * 8) for i in range(len(args)))  # little endian...
             fields.append(Container(
                 name=cur_name,
                 fields=[
@@ -179,6 +180,6 @@ hid_descriptor = Descriptor(
 hid_report_descriptor = Template(
     name='hid_report_descriptor',
     fields=GenerateHidReport(
-        '05010906A101050719E029E7150025017501950881029501750881011900296515002565750895018100C0'.decode('hex')
+        '05010906A101050719E029E7150025017501950881029501750881011900296515002565750895018100C0'
     )
 )

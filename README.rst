@@ -125,7 +125,7 @@ and checking whether a device-specific message was sent.
 
 ::
 
-    $ umap2scan -P fd:/dev/ttyUSB0
+    $ umap2scan -P fd:/dev/ttyUSB0 -i
 
 Vendor Specific Device Support Scanning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

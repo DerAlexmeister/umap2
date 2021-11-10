@@ -9,8 +9,9 @@ from kitty.model import Template, Container, List
 # dynamic fields
 from kitty.model import ElementCount, SizeInBytes
 # encoders
-from kitty.model import StrEncodeEncoder, ENC_INT_LE
-from generic import Descriptor, SubDescriptor
+from kitty.model import StrEncoder, ENC_INT_LE
+
+from .generic import Descriptor, SubDescriptor
 
 
 # Device descriptor
@@ -125,7 +126,7 @@ string_descriptor = Descriptor(
     name='string_descriptor',
     descriptor_type=DescriptorType.string,
     fields=[
-        String(name='bString', value='hello_kitty', encoder=StrEncodeEncoder('utf_16_le'), max_size=254 / 2)
+        String(name='bString', value='hello_kitty'.encode('utf-16'), encoder=StrEncoder(), max_size=254 / 2)
     ])
 
 

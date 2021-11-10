@@ -1,6 +1,7 @@
 # USBMtp.py
 #
 # Contains class definitions to implement a USB keyboard.
+import os
 import struct
 from umap2.core.usb_device import USBDevice
 from umap2.core.usb_configuration import USBConfiguration
@@ -77,7 +78,10 @@ class USBMtpInterface(USBInterface):
                 ),
             ],
         )
-        self.object = MtpObject.from_fs_recursive('mtp_fs')
+        l_mtp_path = 'mtp_fs'
+        if not os.path.exists(l_mtp_path):
+            os.makedirs(l_mtp_path)
+        self.object = MtpObject.from_fs_recursive(l_mtp_path)
         # self.object = MtpObject.from_fs_recursive('mtp_fs/eits.mp3')
         self.storage_info = MtpStorageInfo(
             st_type=1,
