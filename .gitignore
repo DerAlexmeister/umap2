@@ -39,3 +39,7 @@ nosetests.xml
 stick.img
 
 *.log
+
+mtp_fs
+
+kittylogs

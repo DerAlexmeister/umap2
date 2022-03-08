@@ -15492,8 +15492,8 @@ if __name__ == '__main__':
     history = set()
     for db_entry in db:
         if (db_entry.vid, db_entry.pid) in history:
-            print 'Duplicate found: 0x%04x, 0x%04x' % (db_entry.vid, db_entry.pid)
+            print('Duplicate found: 0x%04x, 0x%04x' % (db_entry.vid, db_entry.pid))
             sys.exit(1)
         else:
             history.add((db_entry.vid, db_entry.pid))
-    print 'DB OK!'
+    print('DB OK!')
